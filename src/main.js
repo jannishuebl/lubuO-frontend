@@ -10,6 +10,7 @@ require(`quasar/dist/quasar.${__THEME}.css`)
 // require(`quasar/dist/quasar.ie`)
 // require(`quasar/dist/quasar.ie.${__THEME}.css`)
 
+import 'whatwg-fetch'
 import Vue from 'vue'
 import Quasar from 'quasar'
 import router from './router'

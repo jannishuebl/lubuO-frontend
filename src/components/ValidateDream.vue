@@ -8,7 +8,7 @@
           <big>.. {{currentDream}}</big>
         </q-card-main>
         <q-card-main v-if="edit">
-          <q-input v-model="currentDream" placeholder="currentDream" type="textarea" />
+          <q-input v-model="editDream" :placeholder="currentDream" type="textarea" />
         </q-card-main>
         <q-card-separator />
         <q-card-actions align="around" v-if="!edit">
@@ -24,6 +24,8 @@
 </template>
 
 <script>
+
+import { Vision } from 'src/api'
 
 import {
   QBtn,
@@ -54,7 +56,7 @@ import {
 } from 'quasar'
 
 export default {
-  name: 'validate-dream',
+  name: 'voteVisionQuestions',
   components: {
     QBtn,
     QCard,
@@ -84,28 +86,41 @@ export default {
   },
   data () {
     return {
-      edit: false
+      edit: false,
+      editDream: ''
     }
   },
-  props: ['cardData'],
+  created () {
+    this.editDream = this.currentDream
+  },
+  props: ['cardData', 'question'],
   computed: {
     currentDream: function () {
-      return this.cardData.text
+      return this.voteVisionQuestion.vision.text
+    },
+    voteVisionQuestion: function () {
+      return this.question
     }
   },
   methods: {
-    publishDream (e, done) {
-      console.log(this.dream)
-      done()
-    },
     submitChange () {
-      this.$emit('nextCard')
+      let vision = new Vision({ text: this.editDream, derivedFromId: this.voteVisionQuestion.vision.id })
+      console.log(vision)
+      vision.save().then((success) => {
+        this.$emit('nextCard')
+      })
     },
     accepted () {
-      this.$emit('nextCard')
+      this.voteVisionQuestion.result = true
+      this.voteVisionQuestion.save().then((success) => {
+        this.$emit('nextCard')
+      })
     },
     rejected () {
-      this.$emit('nextCard')
+      this.voteVisionQuestion.result = false
+      this.voteVisionQuestion.save().then((success) => {
+        this.$emit('nextCard')
+      })
     }
 
   },

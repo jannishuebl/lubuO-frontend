@@ -1,7 +1,7 @@
 <template>
 <div class="layout-padding row justify-center">
   <div ref="cardPlaceholder" style="width: 500px; max-width: 90vw;">
-    <component v-bind:card-data="currentCard.data" v-bind:is="currentCard.type" v-on:nextCard="nextCard">
+    <component v-bind:question="question" v-bind:is="currentQuestionType" v-on:nextCard="nextCard">
     </component>
   </div>
   <q-fixed-position corner="bottom-right" :offset="[18, 18]">
@@ -11,6 +11,8 @@
 </template>
 
 <script>
+
+import { QuestionWrapper } from 'src/api'
 
 import {
   QCard,
@@ -39,14 +41,18 @@ import {
   Toast
 } from 'quasar'
 
-import ValidateDream from '@/ValidateDream'
-import ValidateChange from '@/ValidateChange'
+import VoteVisionQuestions from '@/ValidateDream'
+import DecideAlternativeVisionQuestions from '@/ValidateChange'
+import ValidatePlaceholder from '@/ValidatePlaceholder'
+
+import { camelize, underscore } from 'inflected'
 
 export default {
   name: 'world-builder',
   components: {
-    ValidateDream,
-    ValidateChange,
+    VoteVisionQuestions,
+    ValidatePlaceholder,
+    DecideAlternativeVisionQuestions,
     QCard,
     QCardTitle,
     QCardMedia,
@@ -74,33 +80,17 @@ export default {
   },
   data () {
     return {
-      dreams: [
-        { type: 'validate-dream',
-          data: {
-            id: 1,
-            text: 'is a place where all humans only use goods that can be recycled'
-          }
-        },
-        { type: 'validate-change',
-          data: {
-            alternatives: [
-              {
-                id: 1,
-                text: 'is a place where all humans only use goods that can be recycled'
-              }, {
-                id: 2,
-                text: 'is a place where all humans only use goods that can grow up again'
-              }
-            ]
-          }
-        }
-      ],
+      question: null,
       count: 0
     }
   },
   computed: {
-    currentCard: function () {
-      return this.dreams[this.currentIndex]
+    currentQuestionType: function () {
+      if (this.question != null) {
+        return camelize(underscore(this.question.resourceIdentifier.type), false)
+      } else {
+        return 'validate-placeholder'
+      }
     },
     currentIndex: function () {
       return this.count % this.dreams.length
@@ -108,11 +98,16 @@ export default {
   },
   methods: {
     nextCard: function () {
-      this.count += 1
       console.log('nextCard')
+      let question = new QuestionWrapper({})
+      question.save().then((newQuestion) => {
+        this.question = question.question
+        this.count += 1
+      })
     }
   },
-  mounted () {
+  created () {
+    this.nextCard()
   },
   beforeDestroy () {
   }

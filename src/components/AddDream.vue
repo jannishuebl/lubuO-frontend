@@ -48,6 +48,8 @@ import {
   QInput
 } from 'quasar'
 
+import { Vision } from 'src/api'
+
 export default {
   name: 'add-dream',
   components: {
@@ -87,7 +89,11 @@ export default {
   methods: {
     publishDream (e, done) {
       console.log(this.dream)
-      done()
+
+      let vision = new Vision({text: this.dream})
+      console.log(vision)
+      vision.save()
+      // done()
     }
   },
   mounted () {

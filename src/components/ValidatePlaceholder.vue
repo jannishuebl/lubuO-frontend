@@ -1,26 +1,16 @@
 <template>
-<div class="layout-padding card-examples row justify-center">
-  <q-card v-for="vision in visions">
-    <q-card-title>
-      In my dream, the wold..
-    </q-card-title>
-    <q-card-separator />
-      <q-card-main>
-        <big>.. {{vision.text}}</big>
-      </q-card-main>
-    </q-card>
-    <q-fixed-position corner="bottom-right" :offset="[18, 18]">
-      <q-btn round color="primary" @click="$router.push('/addDream')" icon="add" />
-      </q-fixed-position>
-
-</div>
+    <q-card>
+      <q-card-title>
+        Placeholtedr
+      </q-card-title>
+      </q-card>
 </template>
 
 <script>
 
 import {
+  QBtn,
   QCard,
-  QVideo,
   QCardTitle,
   QCardMedia,
   QCardActions,
@@ -33,23 +23,23 @@ import {
   QItemTile,
   QCollapsible,
   QRating,
-  QBtn,
   QParallax,
   QIcon,
   QPopover,
+  QVideo,
   QFab,
   QFabAction,
   QTooltip,
   QFixedPosition,
   Dialog,
-  Toast
+  Toast,
+  QInput
 } from 'quasar'
 
-import { Vision } from 'src/api'
-
 export default {
-  name: 'list-dream',
+  name: 'validate-placeholder',
   components: {
+    QBtn,
     QCard,
     QCardTitle,
     QCardMedia,
@@ -63,7 +53,6 @@ export default {
     QItemTile,
     QCollapsible,
     QRating,
-    QBtn,
     QParallax,
     QIcon,
     QPopover,
@@ -73,12 +62,12 @@ export default {
     QTooltip,
     QFixedPosition,
     Dialog,
-    Toast
+    Toast,
+    QInput
   },
+  props: ['cardData'],
   data () {
     return {
-      visions: [
-      ]
     }
   },
   computed: {
@@ -86,11 +75,6 @@ export default {
   methods: {
   },
   mounted () {
-  },
-  created () {
-    Vision.all().then((response) => {
-      this.visions = response.data
-    })
   },
   beforeDestroy () {
   }

@@ -50,7 +50,7 @@ import {
 } from 'quasar'
 
 export default {
-  name: 'validate-change',
+  name: 'decideAlternativeVisionQuestions',
   components: {
     QBtn,
     QCard,
@@ -78,26 +78,25 @@ export default {
     Toast,
     QInput
   },
-  props: ['cardData'],
+  props: ['question'],
   data () {
     return {
-      currentDream: 'is a place where all humans only use goods that can be recycled',
-      edit: false
     }
   },
   computed: {
     firstDream: function () {
-      return this.cardData.alternatives[0]
+      return this.question.visionAssociation.vision1
     },
     secoundDream: function () {
-      return this.cardData.alternatives[1]
+      return this.question.visionAssociation.vision2
     }
   },
   methods: {
     selected (i, id) {
-      console.log(i)
-      console.log(id)
-      this.$emit('nextCard')
+      this.question.result = i
+      this.question.save().then((success) => {
+        this.$emit('nextCard')
+      })
     }
   },
   mounted () {
