@@ -14,8 +14,8 @@ const ApplicationRecord = JSORMBase.extend({
     fetchOptions: function () {
       let options = this.requestOptions
 
-      if (this.getJWT()) {
-        options.headers.Authorization = this.generateAuthHeader(this.getJWT())
+      if (localStorage.getItem('access_token')) {
+        options.headers.Authorization = this.generateAuthHeader(localStorage.getItem('access_token'))
       }
       return options
     }
@@ -73,10 +73,20 @@ const VisionAssociation = ApplicationRecord.extend({
   }
 })
 
+const AddDreamQuestion = ApplicationRecord.extend({
+  static: {
+    jsonapiType: 'add-dream-questions'
+  },
+  attrs: {
+  }
+})
+
 export {
   Vision,
   VoteVisionQuestion,
   DecideAlternativeVisionQuestion,
   VisionAssociation,
-  QuestionWrapper
+  QuestionWrapper,
+  ApplicationRecord,
+  AddDreamQuestion
 }

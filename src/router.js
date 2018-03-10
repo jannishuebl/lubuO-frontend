@@ -21,9 +21,8 @@ export default new VueRouter({
    * build publicPath back to '' so Cordova builds work again.
    */
 
-  mode: 'hash',
+  mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
-
   routes: [
     { path: '/',
       component: load('Hello'),
@@ -31,6 +30,11 @@ export default new VueRouter({
         {
           path: '/',
           component: load('WorldBuilder')
+        },
+        {
+          path: '/login',
+          name: 'login',
+          component: load('Login')
         },
         {
           path: 'listDreams',

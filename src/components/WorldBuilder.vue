@@ -43,6 +43,7 @@ import {
 
 import VoteVisionQuestions from '@/ValidateDream'
 import DecideAlternativeVisionQuestions from '@/ValidateChange'
+import addDreamQuestions from '@/AddDreamQuestion'
 import ValidatePlaceholder from '@/ValidatePlaceholder'
 
 import { camelize, underscore } from 'inflected'
@@ -53,6 +54,7 @@ export default {
     VoteVisionQuestions,
     ValidatePlaceholder,
     DecideAlternativeVisionQuestions,
+    addDreamQuestions,
     QCard,
     QCardTitle,
     QCardMedia,
@@ -88,7 +90,8 @@ export default {
     currentQuestionType: function () {
       if (this.question != null) {
         return camelize(underscore(this.question.resourceIdentifier.type), false)
-      } else {
+      }
+      else {
         return 'validate-placeholder'
       }
     },

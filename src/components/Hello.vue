@@ -11,8 +11,12 @@
       Our World
       <q-icon name="public" />
     </q-btn>
+    <q-btn @click="auth.logout" flat>
+      Logout
+      <q-icon name="public" />
+    </q-btn>
   </q-toolbar>
-  <router-view />
+  <router-view :auth="auth" :authenticated="authenticated" />
 
 </q-layout>
 </template>
@@ -35,6 +39,7 @@ import AddDream from '@/AddDream'
 
 export default {
   name: 'index',
+  props: ['auth', 'authenticated'],
   components: {
     QLayout,
     QToolbar,
